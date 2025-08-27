@@ -1,5 +1,6 @@
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 public class Menu {
     public static void main(String[] args) {
@@ -8,6 +9,7 @@ public class Menu {
         ArrayList<String> ano = new ArrayList<>();
         ArrayList<Integer> codigo = new ArrayList<>();
         Random rand = new Random();
+        HashMap<Integer, Boolean> disponibilidade = new HashMap<>();
         while(true){
             int opcao = Integer.parseInt(JOptionPane.showInputDialog(
                     """
@@ -40,15 +42,24 @@ public class Menu {
                     } while (codigo.contains(codigoLivro));
 
                     codigo.add(codigoLivro);
+                    disponibilidade.put(codigoLivro, true);
 
                     break;
 
 
                 case 2:
+                    String statusLivro;
                     for (int i = 0; i <= titulo.size(); i++) {
+                        int codStatus = codigo.get(i);
+                        if (disponibilidade.get(codStatus) == true){
+                            statusLivro = "Disponível";
+                        }
+                        else{
+                            statusLivro = "Emprestado";
+                        }
                         JOptionPane.showMessageDialog(null, "Livros: \n" +
                                 "Título: " + titulo.get(i) + ", Autor: " + autor.get(i) + ", Ano: " + ano.get(i) +
-                                ", Código: " +  codigo.get(i) + ", Status: ");
+                                ", Código: " +  codigo.get(i) + ", Status: " +  statusLivro);
                     }
                     break;
             }
