@@ -24,7 +24,7 @@ public class Menu {
                     8 - Contar livros disponíveis e emprestados
                     9 - Sair
                     """));
-
+            String statusLivro;
             switch (opcao){
                 case 1:
                     String tituloLivro = JOptionPane.showInputDialog("Informe o título do livro:");
@@ -48,18 +48,41 @@ public class Menu {
 
 
                 case 2:
-                    String statusLivro;
-                    for (int i = 0; i <= titulo.size(); i++) {
+                    StringBuilder livros = new StringBuilder("Livros cadastrados:\n");
+                    for (int i = 0; i < titulo.size(); i++) {
                         int codStatus = codigo.get(i);
-                        if (disponibilidade.get(codStatus) == true){
+                        if (disponibilidade.get(codStatus)){
                             statusLivro = "Disponível";
                         }
                         else{
                             statusLivro = "Emprestado";
                         }
-                        JOptionPane.showMessageDialog(null, "Livros: \n" +
-                                "Título: " + titulo.get(i) + ", Autor: " + autor.get(i) + ", Ano: " + ano.get(i) +
-                                ", Código: " +  codigo.get(i) + ", Status: " +  statusLivro);
+                        livros.append("Título: ").append(titulo.get(i))
+                                .append(", Autor: ").append(autor.get(i))
+                                .append(", Ano: ").append(ano.get(i))
+                                .append(", Código: ").append(codigo.get(i))
+                                .append(", Status: ").append(statusLivro).append("\n");
+                    }
+                    JOptionPane.showMessageDialog(null, livros.toString());
+                    break;
+
+                case 3:
+                    String buscarLivro = JOptionPane.showInputDialog("Informe o título do livro:");
+                    if (titulo.contains(buscarLivro)){
+                        int indice = titulo.indexOf(buscarLivro);
+                        int codStatus = codigo.get(indice);
+                        if (disponibilidade.get(codStatus)){
+                            statusLivro = "Disponível";
+                        }
+                        else{
+                            statusLivro = "Emprestado";
+                        }
+                        JOptionPane.showMessageDialog(null, "Livros encontrados: \n" +
+                                "Título: " + titulo.get(indice) + ", Autor: " + autor.get(indice) +
+                                ", Ano: " + ano.get(indice) +
+                                ", Código: " +  codigo.get(indice) + ", Status: " + statusLivro);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Livro não encontrado!");
                     }
                     break;
             }
