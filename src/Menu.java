@@ -25,6 +25,7 @@ public class Menu {
                     9 - Sair
                     """));
             String statusLivro;
+            int codigoLivro;
             switch (opcao){
                 case 1:
                     String tituloLivro = JOptionPane.showInputDialog("Informe o título do livro:");
@@ -36,7 +37,6 @@ public class Menu {
                     String anoLivro = JOptionPane.showInputDialog("Informe a ano do livro:");
                     ano.add(anoLivro);
 
-                    int codigoLivro;
                     do {
                         codigoLivro = rand.nextInt(1000) + 1;
                     } while (codigo.contains(codigoLivro));
@@ -49,19 +49,22 @@ public class Menu {
 
                 case 2:
                     StringBuilder livros = new StringBuilder("Livros cadastrados:\n");
-                    for (int i = 0; i < titulo.size(); i++) {
-                        int codStatus = codigo.get(i);
-                        if (disponibilidade.get(codStatus)){
-                            statusLivro = "Disponível";
+                    if (titulo.isEmpty()){
+                        livros.append("Nenhum livro cadastrado!");
+                    }else {
+                        for (int i = 0; i < titulo.size(); i++) {
+                            int codStatus = codigo.get(i);
+                            if (disponibilidade.get(codStatus)) {
+                                statusLivro = "Disponível";
+                            } else {
+                                statusLivro = "Emprestado";
+                            }
+                            livros.append("Título: ").append(titulo.get(i))
+                                    .append(", Autor: ").append(autor.get(i))
+                                    .append(", Ano: ").append(ano.get(i))
+                                    .append(", Código: ").append(codigo.get(i))
+                                    .append(", Status: ").append(statusLivro).append("\n");
                         }
-                        else{
-                            statusLivro = "Emprestado";
-                        }
-                        livros.append("Título: ").append(titulo.get(i))
-                                .append(", Autor: ").append(autor.get(i))
-                                .append(", Ano: ").append(ano.get(i))
-                                .append(", Código: ").append(codigo.get(i))
-                                .append(", Status: ").append(statusLivro).append("\n");
                     }
                     JOptionPane.showMessageDialog(null, livros.toString());
                     break;
@@ -85,6 +88,37 @@ public class Menu {
                         JOptionPane.showMessageDialog(null, "Livro não encontrado!");
                     }
                     break;
+
+                case 4:
+                    codigoLivro = Integer.parseInt(JOptionPane.showInputDialog("Informe o codigo do livro:"));
+                    if(disponibilidade.containsKey(codigoLivro)){
+
+                        if (disponibilidade.get(codigoLivro)){
+                            disponibilidade.put(codigoLivro, false);
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Livro está emprestado!");
+                        }
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Livro não encontrado!");
+                    }
+                    break;
+
+                case 5:
+                    codigoLivro = Integer.parseInt(JOptionPane.showInputDialog("Informe o codigo do livro:"));
+                    if(disponibilidade.containsKey(codigoLivro)){
+
+                        if (disponibilidade.get(codigoLivro)){
+                            JOptionPane.showMessageDialog(null, "Livro está disponível!");
+                        }else{
+                            disponibilidade.put(codigoLivro, true);
+                        }
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Livro não encontrado!");
+                    }
+                    break;
+
             }
         }
 
