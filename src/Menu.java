@@ -47,6 +47,8 @@ public class Menu {
 
                     disponibilidade.put(contadorCodigo, true);
 
+                    JOptionPane.showMessageDialog(null, "Livro cadastrado com sucesso!");
+
                     break;
 
 
@@ -69,17 +71,26 @@ public class Menu {
                     break;
 
                 case 3:
-                    String buscarLivro = JOptionPane.showInputDialog("Informe o título do livro:");
-                    if (titulo.contains(buscarLivro)){
-                        indice = titulo.indexOf(buscarLivro);
-                        codStatus = codigo.get(indice);
-                        statusLivro = disponibilidade.get(codStatus) ? "Disponível" : "Emprestado";
-                        JOptionPane.showMessageDialog(null, "Livros encontrados: \n" +
-                                "Título: " + titulo.get(indice) + ", Autor: " + autor.get(indice) +
-                                ", Ano: " + ano.get(indice) +
-                                ", Código: " +  codigo.get(indice) + ", Status: " + statusLivro);
+                    String buscarLivro = JOptionPane.showInputDialog("Informe parte do título do livro:").toLowerCase();
+                    boolean encontrado = false;
+                    StringBuilder resultado = new StringBuilder("Livros encontrados:\n");
+                    for (int i = 0; i < titulo.size(); i++) {
+                        if (titulo.get(i).toLowerCase().contains(buscarLivro)) {
+                            codStatus = codigo.get(i);
+                            statusLivro = disponibilidade.get(codStatus) ? "Disponível" : "Emprestado";
+                            resultado.append("Título: ").append(titulo.get(i))
+                                    .append(", Autor: ").append(autor.get(i))
+                                    .append(", Ano: ").append(ano.get(i))
+                                    .append(", Código: ").append(codigo.get(i))
+                                    .append(", Status: ").append(statusLivro).append("\n");
+                            encontrado = true;
+                        }
+
+                    }
+                    if (!encontrado){
+                        JOptionPane.showMessageDialog(null, "Nenhum livro encontrado!");
                     }else{
-                        JOptionPane.showMessageDialog(null, "Livro não encontrado!");
+                        JOptionPane.showMessageDialog(null, resultado.toString());
                     }
                     break;
 
@@ -191,6 +202,9 @@ public class Menu {
                     System.exit(0);
                     break;
 
+                default:
+                    JOptionPane.showMessageDialog(null, "Digite um valor numérico válido no campo!",
+                    "Erro de validação", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
